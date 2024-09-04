@@ -1,7 +1,7 @@
 # Search parameters
 KEYWORDS = ["software engineer", "entry level"]
 
-LOCATIONs = ["United States", "WA", "Seattle, WA", "Bellevue, WA", "Redmond, WA", "Kirkland, WA"]
+LOCATIONS = ["United States", "WA", "Seattle, WA", "Bellevue, WA", "Redmond, WA", "Kirkland, WA"]
 
 # LinkedIn job search URL
 LINKEDIN_URL = "https://www.linkedin.com/jobs/search/?keywords={}&locations={}"
