@@ -1,37 +1,37 @@
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
-from datetime import datetime, timedelta
+import requests # For making HTTP requests
+from bs4 import BeautifulSoup # For parsing HTML
+import pandas as pd # For data manipulation and CSV creation
+from datetime import datetime, timedelta # For date handling
 from config import LINKEDIN_URL, HEADERS
-import re
-import time
+import re # For regular expressions
+import time # For adding delays
 
 def scrape_linkedin_jobs(keywords, location):
     url = LINKEDIN_URL.format('+'.join(keywords), location)
 
-    # Add error handling for the HTTP request
+    # Make an HTTP GET request to the URL with error handling
     try:
         response = requests.get(url, headers=HEADERS)
         response.raise_for_status()
     except requests.RequestException as e:
         print(f"An error has occurred: {e}")
         return []
-
+    # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(response.content, 'html.parser')
-    
+    # Find all job cards on the page
     jobs = []
     job_cards = soup.find_all('div', class_='base-card')
 
     print(f"Found {len(job_cards)} job cards")
     
-
+    # Iterate through each job card: extract job title, company, location, link and date
     for i, card in enumerate(job_cards, 1):
         title = card.find('h3', class_='base-search-card__title')
         company = card.find('h4', class_='base-search-card__subtitle')
         location = card.find('span', class_='job-search-card__location')
         link = card.find('a', class_='base-card__full-link')
         
-        # Date extraction
+        # Date extraction using 'parse_date' function
         date_element = card.find('time', class_='job-search-card__listdate')
         
         if title and company and location and link and date_element:
